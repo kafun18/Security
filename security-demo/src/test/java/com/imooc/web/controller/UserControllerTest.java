@@ -32,7 +32,14 @@ public class UserControllerTest {
 	@Test
 	public void whenQuerySuccess() throws Exception {
 		mockMvc.perform(get("/user")
+				//.param会传一个参数值过去
 				.param("username", "jojo")
+				.param("age", "18")
+				.param("ageTo", "60")
+				.param("xxx", "yyy")
+				/*.param("size", "15")
+				.param("page", "3")
+				.param("sort", "age,desc")*/
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.length()")
