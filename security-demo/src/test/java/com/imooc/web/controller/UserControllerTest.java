@@ -29,6 +29,7 @@ public class UserControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 	
+	//查询请求
 	@Test
 	public void whenQuerySuccess() throws Exception {
 		mockMvc.perform(get("/user")
@@ -45,5 +46,24 @@ public class UserControllerTest {
 				.andExpect(jsonPath("$.length()")
 				.value(3));
 	}
+	
+	//用户详情请求
+	@Test
+	public void whenGetInfoSuccess() throws Exception{
+		mockMvc.perform(get("/user/1")
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.username").value("tom"));
+				
+	}
+	
+	//用户详情请求(失败),传正则表达式参数
+	@Test
+	public void whenGetInfoFail() throws Exception{
+		mockMvc.perform(get("/user/a")
+				.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().is4xxClientError());
+					
+		}
 
 }
