@@ -26,17 +26,19 @@ import org.springframework.validation.FieldError;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.imooc.dto.User;
 import com.imooc.dto.UserQueryCondition;
+import com.imooc.exception.UserNotExistException;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+	//用户创建请求
 	@PostMapping
-	public User create(@Valid @RequestBody User user,BindingResult errors){
+	public User create(@Valid @RequestBody User user){
 		
-		if(errors.hasErrors()){
+		/*if(errors.hasErrors()){
 			errors.getAllErrors().stream().forEach(error->System.out.println(error.getDefaultMessage()));
-		}
+		}*/
 		
 		System.out.println(user.getId());
 		System.out.println(user.getUsername());
@@ -47,6 +49,7 @@ public class UserController {
 		return user;
 	}
 	
+	//用户更新请求
 	@PutMapping("/{id:\\d+}")
 	public User update(@Valid @RequestBody User user,BindingResult errors){
 		//验证后报错的信息
@@ -69,11 +72,13 @@ public class UserController {
 		return user;
 	}
 	
+	//用户删除请求
 	@DeleteMapping("/{id:\\d+}")
 	public void delete(@PathVariable String id) {
 		System.out.println(id);
 	}
 	
+	//用户查询请求
 	@GetMapping
 	//@PageableDefault指定分页参数默认值
 	@JsonView(User.UserSimpleView.class)
@@ -91,11 +96,16 @@ public class UserController {
 		return users;
 	}
 	
+	//根据id用户查询请求
 	@GetMapping("/{id:\\d+}")
 	@JsonView(User.UserDetailView.class)
 	public User getInfo(@PathVariable String id){
-		User user = new User();
-		user.setUsername("tom");
-		return user;
+		throw new RuntimeException(id);
+//		throw new UserNotExistException(id);
+		
+//		System.out.println("进入getinfo服务");
+//		User user = new User();
+//		user.setUsername("tom");
+//		return user;
 	}
 }
