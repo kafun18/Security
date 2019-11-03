@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.imooc.dto.User;
 import com.imooc.dto.UserQueryCondition;
 import com.imooc.exception.UserNotExistException;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/user")
@@ -82,6 +85,7 @@ public class UserController {
 	@GetMapping
 	//@PageableDefault指定分页参数默认值
 	@JsonView(User.UserSimpleView.class)
+	@ApiOperation(value="用户查询服务")
 	public List<User> query(UserQueryCondition condition,
 			@PageableDefault(page=2,size=17,sort="username,asc") Pageable pageable) {
 		System.out.println(ReflectionToStringBuilder.toString(condition, ToStringStyle.MULTI_LINE_STYLE));
@@ -99,13 +103,13 @@ public class UserController {
 	//根据id用户查询请求
 	@GetMapping("/{id:\\d+}")
 	@JsonView(User.UserDetailView.class)
-	public User getInfo(@PathVariable String id){
-		throw new RuntimeException(id);
+	public User getInfo(@ApiParam(value="用户id") @PathVariable String id){
+//		throw new RuntimeException(id);
 //		throw new UserNotExistException(id);
 		
-//		System.out.println("进入getinfo服务");
-//		User user = new User();
-//		user.setUsername("tom");
-//		return user;
+		System.out.println("进入getinfo服务");
+		User user = new User();
+		user.setUsername("tom");
+		return user;
 	}
 }

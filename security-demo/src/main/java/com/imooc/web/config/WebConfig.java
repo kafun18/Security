@@ -22,7 +22,7 @@ import com.imooc.web.interceptor.TimeInterceptor;
  *
  */
 //自定义的拦截
-@Configuration
+//@Configuration
 public class WebConfig extends WebMvcConfigurerAdapter{
 	
 //	@SuppressWarnings("unused")
